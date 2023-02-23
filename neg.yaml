@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-site-neg
+  namespace: wordpress
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+    networking.gke.io/load-balancer-type: "Internal"
+    networking.gke.io/internal-load-balancer-subnet: "name-of-subnet"
+spec:
+  selector:
+    app: wordpress-site
+  externalTrafficPolicy: Local
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  clusterIP:
+  type: LoadBalancer
+  # loadBalancerIP: 10.10.10.1

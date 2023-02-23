@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-site-ingress
+  namespace: wordpress
+  annotations:
+    # kubernetes.io/ingress.global-static-ip-name: define-ipname
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  tls:
+    - secretName: wordpress-cert
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: wordpress-site-neg
+                port:
+                  number: 80
+  defaultBackend:
+    service:
+      name: wordpress-site-neg
+      port:
+        number: 80
